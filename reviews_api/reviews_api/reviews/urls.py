@@ -8,33 +8,26 @@ from accounts.views import UserDetail
 from accounts.views import UserCreateAPIView
 from accounts.views import UserLoginAPIView
 from rest_framework.authtoken import views
-from .views import (
-	reviews_list,
-	reviews_create,
-	reviews_detail,
-	reviews_update,
-	reviews_delete,
-	)
+from .views import Company
+
+
 from rest_framework import routers
-#from rest_framework_jwt.views import obtain_jwt_token
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-	url(r'^reviews/$', CreateView.as_view(), name="create"),
-	url(r'^reviews/(?P<pk>[0-9]+)/$', DetailsView.as_view(), name="details"),
-	url(r'^users/$', UserList.as_view()),
-	#url(r'^api/auth/token/', obtain_jwt_token),
-	#url(r'^api-token-auth/', views.obtain_auth_token),
-	url(r'^users/(?P<pk>[0-9]+)/$', UserDetail.as_view()),
-	url(r'^login/$', UserLoginAPIView.as_view(), name = 'login'),
-	url(r'^register/$', UserCreateAPIView.as_view(), name = 'register'),
+    url(r'^admin/', admin.site.urls),											# admin, check the token_auth
 
-	#
-	url(r'^$', reviews_list, name='list'),
-    url(r'^create/$', reviews_create),
-    url(r'^(?P<slug>[\w-]+)/$', reviews_detail, name='detail'),
-    url(r'^(?P<slug>[\w-]+)/edit/$', reviews_update, name='update'),
-    url(r'^(?P<slug>[\w-]+)/delete/$', reviews_delete)
+	url(r'^reviews/$', CreateView.as_view(), name="create"),					# create the reviews
 
+	url(r'^reviews/(?P<pk>\d+)/$', DetailsView.as_view(), name="details"),	# chek the review (and delete them)
+
+	url(r'^users/$', UserList.as_view()),										# Reviewer Metadata. Information about the reviers/users! 
+
+	#url(r'^login/$', UserLoginAPIView.as_view(), name = 'login'), 				# login a user
+
+	url(r'^register/$', UserCreateAPIView.as_view(), name = 'register'), 		# register a user 
+
+	url(r'^companies/$', Company.as_view(), name='companies_info')				# Company. information (name of the company) about
+																  				# the companies to reviewed
 ]
 
 # Login and logout views for the browsable API

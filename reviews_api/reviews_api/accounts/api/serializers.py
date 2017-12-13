@@ -168,9 +168,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
         if user_obj:
             if not user_obj.check_password(password):
                 raise ValidationError("Incorrect credentials please try again")
-
     #   data["token"] = "some random token"#Token.objects.create(user=instance)
-
         return data
 
 class UserSerializer(serializers.ModelSerializer):
@@ -178,7 +176,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'reviews', 'ip_address')
+        fields = ('id', 'username', 'reviews', )#'ip_address')
 
 
 '''
@@ -190,4 +188,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'reviews')
 '''
 
+class CompanySerializer(serializers.ModelSerializer):
+    name = Company.objects.all()
 
+    class Meta:
+        model = Company
+        fields = ('name',)

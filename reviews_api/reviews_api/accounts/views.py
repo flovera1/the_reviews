@@ -51,7 +51,10 @@ from rest_framework import generics
 
 from rest_framework.views import APIView
 
-
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+'''   
 def login_view(request):
     print(request.user.is_authenticated())
     next = request.GET.get('next')
@@ -66,8 +69,8 @@ def login_view(request):
             return redirect(next)
         return redirect("/")
     return render(request, "form.html", {"form":form, "title": title})
-
-
+'''
+'''
 def register_view(request):
     print(request.user.is_authenticated())
     next = request.GET.get('next')
@@ -89,12 +92,12 @@ def register_view(request):
         "title": title
     }
     return render(request, "form.html", context)
-
-
+'''
+'''
 def logout_view(request):
     logout(request)
     return redirect("/")
-
+'''
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -106,6 +109,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()

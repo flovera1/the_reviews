@@ -14,9 +14,9 @@ from reviews.models import Reviews
 
 class ReviewsCreateUpdateSerializer(ModelSerializer):
     class Meta:
-        model = Post
+        model = Reviews
         fields = [
-            #'id',
+            'id',
             'company',
             #'slug',
             'comment',
@@ -35,7 +35,7 @@ class ReviewsDetailSerializer(ModelSerializer):
     user     = UserDetailSerializer(read_only=True)
     comment  = SerializerMethodField()
     class Meta:
-        model = Post
+        model = Reviews
         fields = [
             'url',
             'id',
@@ -59,7 +59,7 @@ class ReviewsListSerializer(ModelSerializer):
     class Meta:
         model = Reviews
         fields = [
-            #'id',
+            'id',
             'company',
             #'slug',
             'comment',
@@ -67,28 +67,3 @@ class ReviewsListSerializer(ModelSerializer):
         ]
 
 
-
-
-""""
-
-from posts.models import Post
-from posts.api.serializers import PostDetailSerializer
-
-
-data = {
-    "title": "Yeahh buddy",
-    "content": "New content",
-    "publish": "2016-2-12",
-    "slug": "yeah-buddy",
-    
-}
-
-obj = Post.objects.get(id=2)
-new_item = PostDetailSerializer(obj, data=data)
-if new_item.is_valid():
-    new_item.save()
-else:
-    print(new_item.errors)
-
-
-"""

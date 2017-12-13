@@ -12,6 +12,8 @@ from rest_framework.authtoken.models import Token
 from django.conf import settings
 from django.db import models
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 # Create your models here.
 import numpy as np
 
@@ -35,6 +37,7 @@ class Reviews(models.Model):
 	Reviewer Metadata - information about the reviewer, can be simple text (e.g., name, email, reviewer id, etc.) or a separate model altogether
 
 	'''
+	'''
 	RATINGS_CHOICES = (
 	(1, '1'),
 	(2, '2'),
@@ -42,16 +45,16 @@ class Reviews(models.Model):
 	(4, '4'),
 	(5, '5'),
 	)
-	
+	'''
 	company     = models.ForeignKey(Company)
 	pub_date    = models.DateTimeField(null=True, blank=True)
 	user_name   = models.CharField(max_length = 200) 
 	comment     = models.CharField(max_length = 200)
-	rating 	    = models.IntegerField(choices = RATINGS_CHOICES)
+	rating 	    = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
 	title 	    = models.CharField(max_length = 64)
 	summary     = models.CharField(max_length = 10000)
-	#ip_address  = models.GenericIPAddressField(protocol='IPv4', verbose_name="Last Login IP", default="127.0.0.1")
-	ip_address = models.CharField(null=True,max_length = 120, default="ABC")
+	ip_address  = models.GenericIPAddressField(protocol='IPv4', verbose_name="Last Login IP", default="127.0.0.1")
+	#ip_address = models.CharField(null=True,max_length = 120, default="ABC")
 	owner       = models.ForeignKey('auth.User', related_name='reviews', on_delete=models.CASCADE)
 	
 
@@ -61,7 +64,6 @@ class Reviews(models.Model):
 
 
 # This code is triggered whenever a new user has been created and saved to the database
-
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
